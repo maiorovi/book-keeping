@@ -11,7 +11,7 @@ function createExpense(jsonBody) {
         }
     }
 
-    let expense = new Expense(jsonBody.description, jsonBody.value, jsonBody.currency);
+    let expense = new Expense(1, jsonBody.description, jsonBody.value, jsonBody.currency);
     return saveExpense(expense)
 }
 

@@ -20,7 +20,7 @@ describe('Expense Service', function(){
 
         it('saves expense to repository and returns status', function () {
             let stub = sinon.stub(expenseRepository, 'saveExpense');
-            let expectedExpense = new Expense('spent on market', 1400, 'UAH');
+            let expectedExpense = new Expense(1, 'spent on market', 1400, 'UAH');
 
             let status = expenseService.createExpense(jsonBody);
 

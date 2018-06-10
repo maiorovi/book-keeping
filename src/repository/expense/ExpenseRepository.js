@@ -1,13 +1,31 @@
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+const OperationResult = require('../../domain/util/OperationResult');
 
 const url = 'mongodb://localhost:27017';
 const dbName = 'book-keeping';
 let db;
 
-function saveExpense(expense) {
-  console.log('saving expense' + expense);
-  db.collection('expenses').insertOne(expense);
+function save(expense, callback) {
+    function saveCallback(err, doc) {
+        if (err) {
+            callback(new OperationResult(false, 'Item Creation failed with reason ' + err.toString()));
+        }
+
+        callback(new OperationResult(true, 'Item Created', {id: doc.ops[0]._id }));
+    }
+
+  return db.collection('expenses').insertOne(expense, saveCallback)
+}
+
+function findAll(callback) {
+    db.collection('expenses').find().toArray().then((docs) => {
+            callback(new OperationResult(true, 'Items fetched', {expenses: docs}))
+        }, (err) => {
+            console.log('error happened ', err)
+            callback(new OperationResult(false, 'Can`t execute query' + err.toString()))
+        }
+    );
 }
 
 MongoClient.connect(url, function (err, client) {
@@ -17,11 +35,8 @@ MongoClient.connect(url, function (err, client) {
     db = client.db(dbName);
 });
 
-const insertDocument = function(db, callback) {
-
-};
-
 module.exports = {
-  saveExpense : saveExpense
+  save : save,
+  findAll : findAll
 };
 

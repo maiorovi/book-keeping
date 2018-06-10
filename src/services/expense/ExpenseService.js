@@ -1,22 +1,20 @@
-let expenseRepository = require('../../../src/repository/expense/ExpenseRepository');
-let Expense = require('../../domain/Expense');
+const expenseRepository = require('../../../src/repository/expense/ExpenseRepository');
+const Expense = require('../../domain/Expense');
 
-function createExpense(jsonBody) {
-    function saveExpense(expense) {
-        try {
-            expenseRepository.saveExpense(expense);
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
+function createExpense(jsonBody, callback) {
+    let expense = new Expense(jsonBody.description, jsonBody.value, jsonBody.currency);
 
-    let expense = new Expense(1, jsonBody.description, jsonBody.value, jsonBody.currency);
-    return saveExpense(expense)
+    return expenseRepository.save(expense, callback)
+}
+
+
+function findAllExpenses(callback) {
+    expenseRepository.findAll(callback)
 }
 
 module.exports = {
-    createExpense: createExpense
+    createExpense: createExpense,
+    findAllExpenses : findAllExpenses
 };
 
 

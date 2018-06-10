@@ -4,16 +4,20 @@ let express = require('express')
 ;
 
 router.get("/", function (req, res) {
-    res.send('ExpenseController');
+    expenseService.findAllExpenses(function(result) {
+        res.send({data: JSON.stringify(result.params.expenses)});
+    });
 });
 
 router.post("/", function (req, res) {
-    let r = expenseService.createExpense(req.body)
-    if (r) {
-        res.status(201).end();
-    } else {
-        res.status(501).end();
-    }
+    expenseService.createExpense(req.body, function(result) {
+        if (result.isOk()) {
+            res.set('Location', req.url+'expenses/'+result.params.id);
+            res.status(201).end();
+        } else {
+            res.status(500).end();
+        }
+    });
 });
 
 module.exports = router;

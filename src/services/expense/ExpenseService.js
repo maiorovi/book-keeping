@@ -12,9 +12,14 @@ function findAllExpenses(callback) {
     expenseRepository.findAll(callback)
 }
 
+function deleteExpense(id, callback) {
+    expenseRepository.deleteExpense(id, callback)
+}
+
 module.exports = {
     createExpense: createExpense,
-    findAllExpenses : findAllExpenses
+    findAllExpenses : findAllExpenses,
+    deleteExpense: deleteExpense
 };
 
 

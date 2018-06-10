@@ -5,7 +5,11 @@ let express = require('express')
 
 router.get("/", function (req, res) {
     expenseService.findAllExpenses(function(result) {
-        res.send({data: JSON.stringify(result.params.expenses)});
+        if(result.isOk()) {
+            res.send({data: JSON.stringify(result.params.expenses)});
+        } else {
+            res.status(500).end();
+        }
     });
 });
 
@@ -18,6 +22,16 @@ router.post("/", function (req, res) {
             res.status(500).end();
         }
     });
+});
+
+router.delete("/:id", function (req,res) {
+    expenseService.deleteExpense(req.params.id , function (result) {
+        if (result.isOk()) {
+            res.status(201).end();
+        } else {
+            res.status(500).end();
+        }
+    })
 });
 
 module.exports = router;

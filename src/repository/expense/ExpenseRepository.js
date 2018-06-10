@@ -1,4 +1,4 @@
-const MongoClient = require('mongodb').MongoClient;
+const {MongoClient, ObjectId} = require('mongodb');
 const assert = require('assert');
 const OperationResult = require('../../domain/util/OperationResult');
 
@@ -28,6 +28,18 @@ function findAll(callback) {
     );
 }
 
+function deleteExpense(id, callback) {
+    const query = { _id: new ObjectId(id) };
+
+    db.collection('expenses').deleteOne(query, function(err, obj) {
+        if (err) {
+            callback(new OperationResult(false, 'Can`t delete item with id', id, err));
+        } else {
+            callback(new OperationResult(true, 'Deleted item with id', id))
+        }
+    });
+}
+
 MongoClient.connect(url, function (err, client) {
   assert.equal(null, err);
    console.log('Connected successfully to server');
@@ -37,6 +49,7 @@ MongoClient.connect(url, function (err, client) {
 
 module.exports = {
   save : save,
-  findAll : findAll
+  findAll : findAll,
+  deleteExpense: deleteExpense
 };
 

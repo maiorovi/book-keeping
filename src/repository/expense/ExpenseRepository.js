@@ -2,7 +2,7 @@ const {MongoClient, ObjectId} = require('mongodb');
 const assert = require('assert');
 const OperationResult = require('../../domain/util/OperationResult');
 
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://mongoadmin:secret@localhost:27017';
 const dbName = 'book-keeping';
 let db;
 

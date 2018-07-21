@@ -6,7 +6,7 @@ let express = require('express')
 router.get("/", function (req, res) {
     expenseService.findAllExpenses(function(result) {
         if(result.isOk()) {
-            res.send({data: JSON.stringify(result.params.expenses)});
+            res.send(JSON.stringify({expenses: result.params.expenses}));
         } else {
             res.status(500).end();
         }

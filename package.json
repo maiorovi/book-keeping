@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test\\unit --recursive"
   },
   "keywords": [
     "book-keeping"
@@ -12,6 +12,15 @@
   "author": "qwerty",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.3"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mongodb": "^3.0.10",
+    "morgan": "^1.9.0",
+    "supertest": "^3.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0",
+    "sinon": "^5.0.10",
+    "chai": "^4.1.2"
   }
 }
